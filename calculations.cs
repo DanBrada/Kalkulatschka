@@ -1,6 +1,6 @@
 using System;
 
-class calulations{
+class calculations{
   void factorial(float ofNumber){
     for(int i; i = )
   }

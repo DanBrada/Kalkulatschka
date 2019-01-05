@@ -2,28 +2,34 @@ using System;
 
 class MainClass {
   public static void Main (string[] args) {
-    string[] allowedOperations = {"1","2","3","4","5"};
-    convertor Con = new convertor();
-    string cis1, cis2, op;
-    float vys= 0, c1 = 0, c2= 0;
-    int o= 0;
-    Console.WriteLine("Calculator v00nic");
-    Console.Write("Type first number: ");
-    cis1 = Console.ReadLine();
-    Console.Write("Type second number: ");
-    cis2 = Console.ReadLine();
-    Con.stringCheck(cis1, cis2, args);
-    c1 = float.Parse(cis1);
-    c2 = float.Parse(cis2);
-    Console.WriteLine("now select Operation: 1-+, 2 - -, 3 - *, 4 - /");
-    op = Console.ReadLine();
-    
+    string[] caughtErrors= new string[3]; //something to not get warnings
+    convertor Con = new convertor(); //convertor class, which contains methods not meeting the software purpose
+    string cis1, cis2, op; //dem stringz
+    float vys= 0, c1 = 0, c2= 0; //dem floatz
+    int o= 0; //Operation
+    Console.WriteLine("Calculator v00nic"); //Don't mind me
+    Console.Write("Type first number: ");   //i'm just
+    cis1 = Console.ReadLine(); //reads value from dat Console
+    Console.Write("Type second number: "); //printing to console
+    cis2 = Console.ReadLine(); //reads value from dat Console
+    try{
+      c1 = float.Parse(cis1);
+      c2 = float.Parse(cis2);
+    }
+    catch(System.FormatException e){
+      caughtErrors[1] = e.ToString();
+      Console.WriteLine("Oops! Wrong input format of number input! Preforming restart");
+      Main(args);
+    } //try to parse inserted value. if catches "System.FormatException" exception, calls the method to avoid crashing
+    Console.Write("now select Operation: 1-+, 2 - -, 3 - *, 4 - /, 5 - ^");
+    op = Console.ReadLine();//reads value fromm dat Console
     try{
       o = int.Parse(op);
     }
     catch(System.FormatException e){
+      caughtErrors[2] = e.ToString();
       o=999;
-    }
+    }//tries to parse operation, if cathes "System.FormatException" exceptions, makes steps to safely reload the method
     switch(o){
       case 1: vys = c1+c2; break;
       case 2: vys = c1-c2; break;
@@ -33,8 +39,8 @@ class MainClass {
       case 999: Console.WriteLine("Sorry, but you inserted invalid value of operation, preforming a quick restart!");
         Main(args);
         break;
-      }
-      Console.WriteLine("I have Counted this: "+ vys.ToString());
+      }//main operation handler
+      Console.WriteLine("I have Counted this: "+ vys.ToString()); //print the final vlue
   
     Console.WriteLine("Do You wish to continue?");
     Console.Write("(Y/N)");
@@ -47,8 +53,7 @@ class MainClass {
     }else{
       Console.WriteLine("Unexpected error");
       Environment.Exit(1);
-    }
-
+    }//handles if should restart to continue method Y = yes, N = No, anythong else = crash;
   }
-
 }
+//created by github.com/mineikCZ in 2018 (c)
